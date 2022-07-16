@@ -138,6 +138,46 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		<script type="text/javascript">
+			// 1. listen to whether sign-up button is clicked
+			// If it is clicked, a function can be executed
+			$("#btn-reg").click(function () {
+				// 2. send ajax() async request to complete user's sign-up request
+				$.ajax({
+					url: "/users/reg",
+					type: "POST",
+					// username=Tom&password=123
+					data: $("#form-reg").serialize(),
+					dataType: "JSON",
+					success: function (json) {
+						alert(json.message);
+					},
+					error : function (xhr) {
+						alert("Error in sign-up, status " + xhr.status)
+					}
+				});
+			});
+
+		</script>
+<!--		<script type="text/javascript">-->
+<!--			$("#btn-reg").click(function() {-->
+<!--				console.log($("#form-reg").serialize());-->
+<!--				$.ajax({-->
+<!--					url: "/users/reg",-->
+<!--					type: "POST",-->
+<!--					data: $("#form-reg").serialize(),-->
+<!--					dataType: "json",-->
+<!--					success: function(json) {-->
+<!--						if (json.state == 200) {-->
+<!--							alert("注册成功！");-->
+<!--// location.href = "login.html";-->
+<!--						} else {-->
+<!--							alert("注册失败！" + json.message);-->
+<!--						}-->
+<!--					}-->
+<!--				});-->
+<!--			});-->
+<!--		</script>-->
 	</body>
 
 </html>
