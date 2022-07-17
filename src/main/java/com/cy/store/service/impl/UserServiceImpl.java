@@ -94,6 +94,36 @@ public class UserServiceImpl implements IUserService {
             throw new UpdateException("Exception occurs in updating password");
     }
 
+    @Override
+    public User getByUid(Integer uid) {
+        User result = userMapper.findByUid(uid);
+        if(result == null || result.getIsDelete() == 1)
+            throw new UserNotFoundException("User data does not exist.");
+
+        User user = new User();
+        user.setUsername(result.getUsername());
+        user.setPhone(result.getPhone());
+        user.setEmail(result.getEmail());
+        user.setGender(result.getGender());
+
+        return user;
+    }
+
+    @Override
+    public void changeInfo(Integer uid, String username, User user) {
+        User result = userMapper.findByUid(uid);
+        if(result == null || result.getIsDelete() == 1)
+            throw new UserNotFoundException("User data does not exist.");
+
+        user.setUid(uid);
+        user.setModifiedUser(username);
+        user.setModifiedTime(new Date());
+        Integer rows = userMapper.UpdateInfoByUid(user);
+
+        if (rows != 1)
+            throw new UpdateException("Error occurs when updating info.");
+    }
+
     private String getMD5Password(String password, String salt) {
         for(int i=0; i<3; i++)
             password = DigestUtils.md5DigestAsHex((salt + password + salt).getBytes()).toUpperCase();

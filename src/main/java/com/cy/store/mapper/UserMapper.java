@@ -16,4 +16,6 @@ public interface UserMapper {
                                 Date modifiedTime);
 
     User findByUid(Integer uid);
+
+    Integer UpdateInfoByUid(User user);
 }
