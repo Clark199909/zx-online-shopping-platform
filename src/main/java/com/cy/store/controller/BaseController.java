@@ -4,6 +4,8 @@ import com.cy.store.service.ex.*;
 import com.cy.store.util.JsonResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.servlet.http.HttpSession;
+
 // base class for controllers
 public class BaseController {
     public static final int OK = 200;
@@ -22,5 +24,13 @@ public class BaseController {
         }
         result.setMessage(e.getMessage());
         return result;
+    }
+
+    protected final Integer getUidFromSession(HttpSession httpSession) {
+        return Integer.valueOf(httpSession.getAttribute("uid").toString());
+    }
+
+    protected final String getUsernameFromSession(HttpSession httpSession) {
+        return httpSession.getAttribute("username").toString();
     }
 }
