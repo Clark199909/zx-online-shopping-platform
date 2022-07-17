@@ -40,9 +40,20 @@ public class UserController extends BaseController {
         httpSession.setAttribute("uid", data.getUid());
         httpSession.setAttribute("username", data.getUsername());
 
-        System.out.println(getUidFromSession(httpSession));
-        System.out.println(getUsernameFromSession(httpSession));
+        return result;
+    }
 
+    @RequestMapping("change_password")
+    public JsonResult<Void> updatePassword(String oldPassword,
+                                           String newPassword,
+                                           HttpSession httpSession) {
+        Integer uid = getUidFromSession(httpSession);
+        String username = getUsernameFromSession(httpSession);
+        userService.changePassword(uid, username, oldPassword, newPassword);
+
+        JsonResult<Void> result = new JsonResult<>();
+        result.setState(OK);
+        result.setMessage("Password successfully changed.");
         return result;
     }
 }

@@ -21,6 +21,8 @@ public class BaseController {
             result.setState(5001);
         } else if(e instanceof PasswordNotMatchException){
             result.setState(5002);
+        } else if(e instanceof UpdateException){
+            result.setState(5003);
         }
         result.setMessage(e.getMessage());
         return result;
