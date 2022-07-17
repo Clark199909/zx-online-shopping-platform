@@ -3,10 +3,7 @@ package com.cy.store.service.impl;
 import com.cy.store.entity.User;
 import com.cy.store.mapper.UserMapper;
 import com.cy.store.service.IUserService;
-import com.cy.store.service.ex.InsertException;
-import com.cy.store.service.ex.PasswordNotMatchException;
-import com.cy.store.service.ex.UserNotFoundException;
-import com.cy.store.service.ex.UsernameDuplicatedException;
+import com.cy.store.service.ex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -74,6 +71,27 @@ public class UserServiceImpl implements IUserService {
         user.setAvatar(result.getAvatar());
 
         return user;
+    }
+
+    @Override
+    public void changePassword(Integer uid,
+                               String username,
+                               String oldPassword,
+                               String newPassword) {
+        User result = userMapper.findByUid(uid);
+        if(result == null || result.getIsDelete() == 1)
+            throw new UserNotFoundException("No user with this username exists");
+
+        String md5OldPassword = getMD5Password(oldPassword, result.getSalt());
+        if(!result.getPassword().equals(md5OldPassword))
+            throw new PasswordNotMatchException("Incorrect password");
+
+        String md5NewPassword = getMD5Password(newPassword, result.getSalt());
+
+        Integer rows = userMapper.updatePasswordByUid(uid, md5NewPassword, username, new Date());
+
+        if(rows != 1)
+            throw new UpdateException("Exception occurs in updating password");
     }
 
     private String getMD5Password(String password, String salt) {

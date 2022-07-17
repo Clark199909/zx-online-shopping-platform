@@ -27,4 +27,16 @@
         WHERE
             username = #{username}
     </select>
+
+    <update id="updatePasswordByUid">
+        UPDATE t_user SET
+            password=#{password},
+            modified_user=#{modifiedUser},
+            modified_time=#{modifiedTime}
+        where uid=${uid}
+    </update>
+
+    <select id="findByUid" resultMap="UserEntityMap">
+        SELECT * from t_user WHERE uid=#{uid}
+    </select>
 </mapper>
