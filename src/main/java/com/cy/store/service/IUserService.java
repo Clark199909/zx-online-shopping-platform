@@ -17,4 +17,8 @@ public interface IUserService {
     User getByUid(Integer uid);
 
     void changeInfo(Integer uid, String username, User user);
+
+    void changeAvatar(Integer uid,
+                      String avatar,
+                      String username);
 }

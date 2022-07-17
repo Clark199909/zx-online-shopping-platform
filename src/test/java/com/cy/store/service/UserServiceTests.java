@@ -58,4 +58,9 @@ public class UserServiceTests {
         System.out.println(user);
     }
 
+    @Test
+    public void changeAvatar(){
+        userService.changeAvatar(9, "/update/haha.png", "admin");
+    }
+
 }
