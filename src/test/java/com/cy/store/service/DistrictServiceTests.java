@@ -1,4 +1,4 @@
-package com.cy.store.mapper;
+package com.cy.store.service;
 
 import com.cy.store.entity.Address;
 import com.cy.store.entity.District;
@@ -10,25 +10,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class DistrictMapperTests {
+public class DistrictServiceTests {
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    private DistrictMapper districtMapper;
+    private IDistrictService districtService;
 
     @Test
     public void findByParent() {
-        List<District> list = districtMapper.findByParent("210100");
-        for(District d:list) System.out.println(d);
+        List<District> list = districtService.getByParent("86");
+        for(District d:list) System.err.println(d);
     }
-
-    @Test
-    public void findNameByCode() {
-        String name = districtMapper.findNameByCode("610000");
-        System.err.println(name);
-    }
-
 
 }

@@ -3,6 +3,7 @@ package com.cy.store.service.impl;
 import com.cy.store.entity.Address;
 import com.cy.store.mapper.AddressMapper;
 import com.cy.store.service.IAddressService;
+import com.cy.store.service.IDistrictService;
 import com.cy.store.service.ex.AddressCountLimitException;
 import com.cy.store.service.ex.InsertException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,12 @@ import java.util.Date;
 @Service
 public class AddressServiceImpl implements IAddressService {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private AddressMapper addressMapper;
+
+    @Autowired
+    private IDistrictService districtService;
 
     @Value("${user.address.max-count}")
     private Integer max_count;
@@ -29,6 +34,13 @@ public class AddressServiceImpl implements IAddressService {
         address.setUid(uid);
         Integer isDefault = count == 0 ? 1 : 0;
         address.setIsDefault(isDefault);
+
+        String provinceName = districtService.getNameByCode(address.getProvinceCode());
+        String cityName = districtService.getNameByCode(address.getCityCode());
+        String areaName = districtService.getNameByCode(address.getAreaCode());
+        address.setProvinceName(provinceName);
+        address.setCityName(cityName);
+        address.setAreaName(areaName);
 
         address.setCreatedUser(username);
         address.setCreatedTime(new Date());
