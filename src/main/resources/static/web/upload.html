@@ -13,6 +13,7 @@
 		<link href="../bootstrap3/css/bootstrap.css" rel="stylesheet" type="text/css">
 		<script src="../bootstrap3/jquery-1.9.1.min.js"></script>
 		<script src="../bootstrap3/js/bootstrap.js"></script>
+		<script src="../bootstrap3/js/jquery.cookie.js" type="text/javascript" charset="utf-8"></script>
 		<!-- 字体图标 -->
 		<link rel="stylesheet" href="../bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />
 		<link rel="stylesheet" type="text/css" href="../css/layout.css" />
@@ -243,6 +244,11 @@
 		</footer>
 		<!--页脚结束-->
 		<script type="text/javascript">
+			$(document).ready(function () {
+				let	avatar = $.cookie("avatar");
+				$("#img-avatar").attr("src", avatar);
+			});
+
 			$("#btn-change-avatar").click(function() {
 				$.ajax({
 					url: "/users/change_avatar",
@@ -252,8 +258,9 @@
 					processData: false, // processData处理数据
 					contentType: false, // contentType发送数据的格式
 					success: function(json) {
-						if (json.state == 200) {
+						if (json.state === 200) {
 							$("#img-avatar").attr("src", json.data);
+							$.cookie("avatar", json.data, {expires: 7})
 						} else {
 							alert("修改失败！" + json.message);
 						}

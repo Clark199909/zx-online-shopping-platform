@@ -153,6 +153,7 @@
 					success: function (json) {
 						alert(json.message);
 						location.href = "index.html";
+						$.cookie("avatar", json.data.avatar, {expires: 7});
 					},
 					error: function (xhr) {
 						alert("Error in log-in, status " + xhr.status);
