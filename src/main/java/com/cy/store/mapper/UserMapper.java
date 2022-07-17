@@ -18,4 +18,12 @@ public interface UserMapper {
     User findByUid(Integer uid);
 
     Integer UpdateInfoByUid(User user);
+
+    // can use @Param("UID") Integer uid
+    // if needed to inject uid into UID, which
+    // is used in SQL
+    Integer updateAvatarByUid(Integer uid,
+                              String avatar,
+                              String modifiedUser,
+                              Date modifiedTime);
 }

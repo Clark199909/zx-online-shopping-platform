@@ -55,4 +55,10 @@ public class UserMapperTests {
         Integer rows = userMapper.UpdateInfoByUid(user);
         System.out.println("rows=" + rows);
     }
+
+    @Test
+    public void updateAvatarByUid() {
+        userMapper.updateAvatarByUid(22,
+                "/upload/avatar.png", "admin", new Date());
+    }
 }
