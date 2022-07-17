@@ -26,4 +26,12 @@ public class UserController extends BaseController {
         result.setMessage("Sign-up succeeds");
         return result;
     }
+
+    @RequestMapping("login")
+    public JsonResult<User> login(String username, String password) {
+        User data = userService.login(username, password);
+        JsonResult<User> result = new JsonResult<>(OK, data);
+        result.setMessage("Login succeeds.");
+        return result;
+    }
 }

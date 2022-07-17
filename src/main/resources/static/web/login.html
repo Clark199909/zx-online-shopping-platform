@@ -143,5 +143,22 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		<script type="text/javascript">
+			$("#btn-login").click(function(){
+				$.ajax({
+					url: "/users/login",
+					type: "POST",
+					data: $("#form-login").serialize(),
+					dataType: "JSON",
+					success: function (json) {
+						alert(json.message);
+						location.href = "index.html";
+					},
+					error: function (xhr) {
+						alert("Error in sign-up, status " + xhr.status);
+					}
+				})
+			})
+		</script>
 	</body>
 </html>
