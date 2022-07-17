@@ -56,4 +56,23 @@ public class UserController extends BaseController {
         result.setMessage("Password successfully changed.");
         return result;
     }
+
+    @RequestMapping("get_by_uid")
+    public JsonResult<User> getByUid(HttpSession httpSession) {
+        User data = userService.getByUid(getUidFromSession(httpSession));
+        JsonResult<User> result = new JsonResult<>(OK, data);
+        result.setMessage("User successfully found with the given uid.");
+
+        return result;
+    }
+
+    @RequestMapping("change_info")
+    public JsonResult<Void> updateInfo(User user, HttpSession httpSession){
+        userService.changeInfo(getUidFromSession(httpSession),
+                getUsernameFromSession(httpSession), user);
+        JsonResult<Void> result = new JsonResult<>();
+        result.setState(OK);
+        result.setMessage("Info successfully changed.");
+        return result;
+    }
 }
