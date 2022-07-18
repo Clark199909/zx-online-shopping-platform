@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RequestMapping("address")
 @RestController
@@ -24,5 +25,12 @@ public class AddressController extends BaseController {
         result.setState(OK);
         result.setMessage("New address successfully added!");
         return result;
+    }
+
+    @RequestMapping({"/",""})
+    public JsonResult<List<Address>> getByUid(HttpSession httpSession) {
+        Integer uid = getUidFromSession(httpSession);
+        List<Address> data = addressService.getByUid(uid);
+        return new JsonResult<>(OK, data);
     }
 }

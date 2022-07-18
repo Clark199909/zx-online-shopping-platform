@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -23,6 +25,16 @@ public class AddressServiceTests {
         address.setPhone("123456788");
         address.setName("Carmelo");
         addressService.addNewAddress(10, "Admin", address);
+    }
+
+    @Test
+    public void getByUid() {
+        Integer uid = 9;
+        List<Address> list = addressService.getByUid(uid);
+        System.out.println("count=" + list.size());
+        for (Address item : list) {
+            System.out.println(item);
+        }
     }
 
 }
