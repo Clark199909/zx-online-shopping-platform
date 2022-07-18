@@ -51,4 +51,18 @@ public class AddressServiceTests {
         }
     }
 
+    @Test
+    public void delete() {
+        try {
+            Integer aid = 5;
+            Integer uid = 9;
+            String username = "admin";
+            addressService.delete(aid, uid, username);
+            System.out.println("OK.");
+        } catch (ServiceException e) {
+            System.out.println(e.getClass().getSimpleName());
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

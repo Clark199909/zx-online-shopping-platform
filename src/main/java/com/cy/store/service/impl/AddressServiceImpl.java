@@ -28,7 +28,7 @@ public class AddressServiceImpl implements IAddressService {
     @Override
     public void addNewAddress(Integer uid, String username, Address address) {
         Integer count = addressMapper.countByUid(uid);
-        if(count > max_count)
+        if (count > max_count)
             throw new AddressCountLimitException("Number of addresses is larger than limit.");
 
         address.setUid(uid);
@@ -48,14 +48,14 @@ public class AddressServiceImpl implements IAddressService {
         address.setModifiedTime(new Date());
 
         Integer rows = addressMapper.insert(address);
-        if(rows != 1)
+        if (rows != 1)
             throw new InsertException("Unknown exception occurs when inserting new address.");
     }
 
     @Override
     public List<Address> getByUid(Integer uid) {
         List<Address> list = addressMapper.findByUid(uid);
-        for(Address a:list){
+        for (Address a : list) {
             a.setProvinceCode(null);
             a.setCityCode(null);
             a.setAreaCode(null);
@@ -72,18 +72,48 @@ public class AddressServiceImpl implements IAddressService {
     @Override
     public void setDefault(Integer aid, Integer uid, String username) {
         Address result = addressMapper.findByAid(aid);
-        if(result == null)
+        if (result == null)
             throw new AddressNotFoundException("Address cannot be found.");
 
-        if(!result.getUid().equals(uid))
+        if (!result.getUid().equals(uid))
             throw new AccessDeniedException("Illegal data access.");
 
         Integer rows = addressMapper.updateNonDefaultByUid(uid);
-        if(rows < 1)
+        if (rows < 1)
             throw new UpdateException("Unknown exception in updating is_default value");
 
         rows = addressMapper.updateDefaultByAid(aid, username, new Date());
-        if(rows != 1)
+        if (rows != 1)
             throw new UpdateException("Unknown exception in updating is_default value");
+    }
+
+    @Override
+    public void delete(Integer aid, Integer uid, String username) {
+        Address result = addressMapper.findByAid(aid);
+        if (result == null)
+            throw new AddressNotFoundException("Address cannot be found.");
+
+        if (!result.getUid().equals(uid))
+            throw new AccessDeniedException("Illegal data access.");
+
+        Integer rows1 = addressMapper.deleteByAid(aid);
+        if (rows1 != 1) {
+            throw new DeleteException("Unknown exception when deleting address.");
+        }
+
+        if (result.getIsDefault() == 0) {
+            return;
+        }
+
+        Integer count = addressMapper.countByUid(uid);
+        if (count == 0) {
+            return;
+        }
+
+        Address lastModified = addressMapper.findLastModified(uid);
+        Integer lastModifiedAid = lastModified.getAid();
+        Integer rows2 = addressMapper.updateDefaultByAid(lastModifiedAid, username, new Date());
+        if (rows2 != 1)
+            throw new UpdateException("Unknown exception when updating address.");
     }
 }

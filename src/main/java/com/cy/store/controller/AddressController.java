@@ -46,4 +46,16 @@ public class AddressController extends BaseController {
         result.setMessage("Address sets as default successfully!");
         return result;
     }
+
+    @RequestMapping("{aid}/delete")
+    public JsonResult<Void> delete(@PathVariable("aid") Integer aid, HttpSession session) {
+        Integer uid = getUidFromSession(session);
+        String username = getUsernameFromSession(session);
+        addressService.delete(aid, uid, username);
+
+        JsonResult<Void> result = new JsonResult<>();
+        result.setState(OK);
+        result.setMessage("Address successfully deleted!");
+        return result;
+    }
 }
