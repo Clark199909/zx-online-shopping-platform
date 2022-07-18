@@ -37,4 +37,18 @@ public class AddressServiceTests {
         }
     }
 
+    @Test
+    public void setDefault() {
+        try {
+            Integer aid = 4;
+            Integer uid = 9;
+            String username = "admin";
+            addressService.setDefault(aid, uid, username);
+            System.out.println("OK.");
+        } catch (ServiceException e) {
+            System.out.println(e.getClass().getSimpleName());
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

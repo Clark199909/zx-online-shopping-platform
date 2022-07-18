@@ -22,6 +22,10 @@ public class BaseController {
             result.setState(4002);
         } else if(e instanceof AddressCountLimitException){
             result.setState(4003);
+        } else if(e instanceof AddressNotFoundException){
+            result.setState(4004);
+        } else if(e instanceof AccessDeniedException){
+            result.setState(4005);
         } else if(e instanceof InsertException){
             result.setState(5000);
         } else if(e instanceof UpdateException){

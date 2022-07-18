@@ -41,4 +41,25 @@ public class AddressMapperTests {
         System.err.println(addressMapper.findByUid(9));
     }
 
+    @Test
+    public void updateNonDefaultByUid() {
+        Integer uid = 9;
+        Integer rows = addressMapper.updateNonDefaultByUid(uid);
+        System.out.println("rows=" + rows);
+    }
+    @Test
+    public void updateDefaultByAid() {
+        Integer aid = 4;
+        String modifiedUser = "admin";
+        Date modifiedTime = new Date();
+        Integer rows = addressMapper.updateDefaultByAid(aid, modifiedUser, modifiedTime);
+        System.out.println("rows=" + rows);
+    }
+    @Test
+    public void findByAid() {
+        Integer aid = 4;
+        Address result = addressMapper.findByAid(aid);
+        System.out.println(result);
+    }
+
 }

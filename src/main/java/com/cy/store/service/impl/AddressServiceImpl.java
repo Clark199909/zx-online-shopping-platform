@@ -4,8 +4,7 @@ import com.cy.store.entity.Address;
 import com.cy.store.mapper.AddressMapper;
 import com.cy.store.service.IAddressService;
 import com.cy.store.service.IDistrictService;
-import com.cy.store.service.ex.AddressCountLimitException;
-import com.cy.store.service.ex.InsertException;
+import com.cy.store.service.ex.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -68,5 +67,23 @@ public class AddressServiceImpl implements IAddressService {
             a.setModifiedUser(null);
         }
         return list;
+    }
+
+    @Override
+    public void setDefault(Integer aid, Integer uid, String username) {
+        Address result = addressMapper.findByAid(aid);
+        if(result == null)
+            throw new AddressNotFoundException("Address cannot be found.");
+
+        if(!result.getUid().equals(uid))
+            throw new AccessDeniedException("Illegal data access.");
+
+        Integer rows = addressMapper.updateNonDefaultByUid(uid);
+        if(rows < 1)
+            throw new UpdateException("Unknown exception in updating is_default value");
+
+        rows = addressMapper.updateDefaultByAid(aid, username, new Date());
+        if(rows != 1)
+            throw new UpdateException("Unknown exception in updating is_default value");
     }
 }
