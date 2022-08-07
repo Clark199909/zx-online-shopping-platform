@@ -116,4 +116,23 @@ public class AddressServiceImpl implements IAddressService {
         if (rows2 != 1)
             throw new UpdateException("Unknown exception when updating address.");
     }
+
+    @Override
+    public Address getByAid(Integer aid, Integer uid) {
+        Address address = addressMapper.findByAid(aid);
+        if (address == null) {
+            throw new AddressNotFoundException("Requested address cannot be found");
+        }
+        if (!address.getUid().equals(uid)) {
+            throw new AccessDeniedException("Illegal Access");
+        }
+        address.setProvinceCode(null);
+        address.setCityCode(null);
+        address.setAreaCode(null);
+        address.setCreatedUser(null);
+        address.setCreatedTime(null);
+        address.setModifiedUser(null);
+        address.setModifiedTime(null);
+        return address;
+    }
 }

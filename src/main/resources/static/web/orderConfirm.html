@@ -316,6 +316,27 @@
 					}
 				});
 			}
+
+			$("#btn-create-order").click(function() {
+				$.ajax({
+					url: "/orders/create",
+					data: $("#form-create-order").serialize(),
+					type: "POST",
+					dataType: "JSON",
+					success: function(json) {
+						if (json.state === 200) {
+							alert("Order successfully created！");
+							console.log(json.data);
+						} else {
+							alert("Order Creation failed" + json.message);
+						}
+					},
+					error: function(xhr) {
+						alert("Login out-of-date, status：" + xhr.status);
+						location.href = "login.html";
+					}
+				});
+			});
 		</script>
 	</body>
 
