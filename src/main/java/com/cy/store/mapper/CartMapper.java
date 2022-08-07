@@ -1,9 +1,11 @@
 package com.cy.store.mapper;
 
 import com.cy.store.entity.Cart;
+import com.cy.store.vo.CartVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
 
 public interface CartMapper {
 
@@ -18,4 +20,10 @@ public interface CartMapper {
     Cart findByUidAndPid(
             @Param("uid") Integer uid,
             @Param("pid") Integer pid);
+
+    List<CartVO> findVOByUid(Integer uid);
+
+    Cart findByCid(Integer cid);
+
+    List<CartVO> findVOByCids(Integer[] cids);
 }
